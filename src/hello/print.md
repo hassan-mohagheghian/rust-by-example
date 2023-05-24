@@ -52,19 +52,18 @@ fn main() {
     println!("{number:0>width$}", number=1, width=5);
 
     // Rust even checks to make sure the correct number of arguments are used.
-    println!("My name is {0}, {1} {0}", "Bond");
-    // FIXME ^ Add the missing argument: "James"
+    println!("My name is {0}, {1} {0}", "Bond", "James");
 
     // Only types that implement fmt::Display can be formatted with `{}`. User-
     // defined types do not implement fmt::Display by default.
 
     #[allow(dead_code)] // disable `dead_code` which warn against unused module
+    #[derive(Debug)]
     struct Structure(i32);
 
-    // This will not compile because `Structure` does not implement
-    // fmt::Display.
-    // println!("This struct `{}` won't print...", Structure(3));
-    // TODO ^ Try uncommenting this line
+    // This will compile because `Structure` does implement
+    // fmt::Debug.
+    println!("This struct `{:?}` won't print...", Structure(3));
 
     // For Rust 1.58 and above, you can directly capture the argument from a
     // surrounding variable. Just like the above, this will output
@@ -72,6 +71,9 @@ fn main() {
     let number: f64 = 1.0;
     let width: usize = 5;
     println!("{number:>width$}");
+
+    // print pi
+    println!("Pi is roughly {:.6}", std::f64::consts::PI )
 }
 ```
 

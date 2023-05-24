@@ -74,6 +74,25 @@ impl fmt::Display for Point2D {
     }
 }
 
+impl fmt::Binary for Point2D{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Customize so only `x` and `y` are denoted.
+        write!(f, "x: {:b}, y: {:b}", self.x.to_bits(), self.y.to_bits())
+    }
+  }
+
+#[derive(Debug)]
+struct Complex {
+    re: f64,
+    im: f64,
+  }
+
+impl fmt::Display for Complex {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} + {}i", self.re, self.im)
+    }
+}
+
 fn main() {
     let minmax = MinMax(0, 14);
 
@@ -94,9 +113,16 @@ fn main() {
     println!("Display: {}", point);
     println!("Debug: {:?}", point);
 
-    // Error. Both `Debug` and `Display` were implemented, but `{:b}`
-    // requires `fmt::Binary` to be implemented. This will not work.
-    // println!("What does Point2D look like in binary: {:b}?", point);
+
+    println!("What does Point2D look like in binary: {:b}?", point);
+
+
+    let complex_num = Complex { re: 3.3, im: 7.2 };
+
+    println!("Compare complex number:");
+    println!("Display: {}", complex_num);
+    println!("Debug: {:?}", complex_num);
+
 }
 ```
 
