@@ -24,17 +24,33 @@ struct Unit;
 struct Pair(i32, f32);
 
 // A struct with two fields
+#[derive(Debug)]
 struct Point {
     x: f32,
     y: f32,
 }
 
 // Structs can be reused as fields of another struct
+#[derive(Debug)]
 struct Rectangle {
     // A rectangle can be specified by where the top left and bottom right
     // corners are in space.
     top_left: Point,
     bottom_right: Point,
+}
+
+fn rect_area(rect: &Rectangle)-> f32 {
+    let Rectangle {top_left, bottom_right} = rect;
+    f32::abs((top_left.x - bottom_right.x) * (top_left.y- bottom_right.y))
+}
+
+fn square(point: &Point, width: f32) -> Rectangle {
+    let top_left = Point{..*point};
+    let bottom_right = Point {x: point.x + f32::abs(width), y: point.y - f32::abs(width)};
+    Rectangle {
+       top_left,
+       bottom_right,
+    }
 }
 
 fn main() {
@@ -82,6 +98,15 @@ fn main() {
     let Pair(integer, decimal) = pair;
 
     println!("pair contains {:?} and {:?}", integer, decimal);
+
+    let rectangle = Rectangle {
+        top_left: Point { x: 5.0, y: 5.0 },
+        bottom_right: Point { x: 10.0, y: 10.0 },
+    };
+    println!("Area of {:?} is: {}", rectangle, rect_area(&rectangle));
+
+    let point = Point{x: 10.0, y: 10.0};
+    println!("square is: {:?}", square(&point, 3.0));
 }
 ```
 
