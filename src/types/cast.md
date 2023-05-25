@@ -15,7 +15,7 @@ fn main() {
     let decimal = 65.4321_f32;
 
     // Error! No implicit conversion
-    let integer: u8 = decimal;
+    // let integer: u8 = decimal;
     // FIXME ^ Comment out this line
 
     // Explicit conversion
@@ -24,7 +24,7 @@ fn main() {
 
     // Error! There are limitations in conversion rules.
     // A float cannot be directly converted to a char.
-    let character = decimal as char;
+    // let character = decimal as char;
     // FIXME ^ Comment out this line
 
     println!("Casting: {} -> {} -> {}", decimal, integer, character);
