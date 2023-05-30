@@ -48,7 +48,7 @@ fn main() {
     new_edition(&mut mutabook);
     
     // Error! Cannot borrow an immutable object as mutable
-    new_edition(&mut immutabook);
+    // new_edition(&mut immutabook);
     // FIXME ^ Comment out this line
 }
 ```
