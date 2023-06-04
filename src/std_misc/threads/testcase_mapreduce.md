@@ -25,6 +25,23 @@ lifetimes.)
 
 ```rust,editable
 use std::thread;
+const N_THREADS: usize = 8;
+
+fn split_data_into_chunks(data: &str) -> Vec<String> {
+    let mut data = data.to_owned();
+    data.retain(|c| !c.is_ascii_whitespace());
+    let data = data.as_str();
+    let mut chunked_data = vec![];
+    let len = data.len();
+    let chunk_size = len / N_THREADS;
+
+    for i in 0..N_THREADS {
+        let start = i * chunk_size;
+        let end = (i * chunk_size + chunk_size).min(len);
+        chunked_data.push(String::from(&data[start..end]));
+    }
+    chunked_data
+}
 
 // This is the `main` thread
 fn main() {
@@ -54,14 +71,14 @@ fn main() {
 
     // split our data into segments for individual calculation
     // each chunk will be a reference (&str) into the actual data
-    let chunked_data = data.split_whitespace();
+    let chunked_data = split_data_into_chunks(data);
 
     // Iterate over the data segments.
     // .enumerate() adds the current loop index to whatever is iterated
     // the resulting tuple "(index, element)" is then immediately
     // "destructured" into two variables, "i" and "data_segment" with a
     // "destructuring assignment"
-    for (i, data_segment) in chunked_data.enumerate() {
+    for (i, data_segment) in chunked_data.into_iter().enumerate() {
         println!("data segment {} is \"{}\"", i, data_segment);
 
         // Process each data segment in a separate thread
